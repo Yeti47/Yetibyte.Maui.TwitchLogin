@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Yetibyte.Maui.TwitchLoginControl.Sample.MainPage"
+             xmlns:yb="clr-namespace:Yetibyte.Maui.TwitchLoginControl;assembly=Yetibyte.Maui.TwitchLoginControl">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <yb:TwitchLogin 
+                x:Name="twitchLogin"
+                WidthRequest="400"
+                HeightRequest="800"
+                RedirectUri="https://yetibyte.stremm.chat.localhost"
+                ClientId="pkpe0wrpb397czto89implwyr5t959"
+                LoginFailed="twitchLogin_LoginFailed"
+                LoginSucceeded="twitchLogin_LoginSucceeded"
+                UnexpectedRedirect="twitchLogin_UnexpectedRedirect"
+                StateMismatchOccurred="twitchLogin_StateMismatchOccurred"
+                LoggedOut="twitchLogin_LoggedOut"
+            />
+
+            <Entry 
+                x:Name="entryAuthToken" 
+                IsReadOnly="True" 
+                Placeholder="Your access token will appear here"
+            />
+
+            <Button
+                x:Name="btnClear"
+                Text="Clear"
+                Clicked="btnClear_Clicked"  
+            />
+
+            <Button
+                x:Name="btnInspectCookies"
+                Text="Inspect Cookies"
+                Clicked="btnInspectCookies_Clicked"
+            />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
