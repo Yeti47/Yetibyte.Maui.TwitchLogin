@@ -49,16 +49,6 @@ namespace Yetibyte.Maui.TwitchLogin.Core
         }
     }
 
-    public class TwitchConnectionErrorEventArgs : EventArgs
-    {
-        public string Message { get; }
-
-        public TwitchConnectionErrorEventArgs(string message)
-        {
-            Message = message;
-        }
-    }
-
     public class TwitchLoginUnexpectedRedirectEventArgs : EventArgs
     {
         public Uri Uri { get; }
