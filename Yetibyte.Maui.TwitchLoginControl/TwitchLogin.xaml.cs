@@ -95,21 +95,21 @@ public partial class TwitchLogin : ContentView
 
 	}
 
+    #endregion
+
+    #region Methods
+
     private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ViewModel.IsLoggedIn)) 
-        { 
-            OnPropertyChanged(nameof(IsLoggedIn));    
+        if (e.PropertyName == nameof(ViewModel.IsLoggedIn))
+        {
+            OnPropertyChanged(nameof(IsLoggedIn));
         }
         else if (e.PropertyName == nameof(ViewModel.AccessToken))
         {
             OnPropertyChanged(nameof(AccessToken));
         }
     }
-
-    #endregion
-
-    #region Methods
 
     private void webViewLogin_Navigating(object sender, WebNavigatingEventArgs e)
     {
