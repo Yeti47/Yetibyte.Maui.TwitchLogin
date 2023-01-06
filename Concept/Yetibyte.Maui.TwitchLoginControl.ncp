@@ -1,0 +1,166 @@
+<Project>
+  <Name>Yetibyte.Maui.TwitchLoginControl</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>TwitchLoginControl</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>ContentView</Name>
+        <Access>Public</Access>
+        <Location left="272" top="99" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Native MAUI class</Text>
+        <Location left="72" top="99" />
+        <Size width="119" height="50" />
+      </Entity>
+      <Entity type="Class">
+        <Name>ViewModel</Name>
+        <Access>Public</Access>
+        <Location left="570" top="51" />
+        <Size width="332" height="125" />
+        <Collapsed>False</Collapsed>
+        <Member type="Event">public event EventHandle&lt;PropertyChangedEventArgs&gt; PropertyChanged</Member>
+        <Member type="Method">protected virtual void OnPropertyChanged(string propertyName = "")</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>TwitchLoginViewModel</Name>
+        <Access>Internal</Access>
+        <Location left="639" top="254" />
+        <Size width="451" height="381" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private readonly ICookieManager _cookieManager</Member>
+        <Member type="Property">public string AccessToken { get; private set; }</Member>
+        <Member type="Property">public Uri RedirectUri { get; set; }</Member>
+        <Member type="Property">public string ClientId { get; set; }</Member>
+        <Member type="Property">public string AuthenticationUrl { get; }</Member>
+        <Member type="Property">public bool IsLoggedIn { get; }</Member>
+        <Member type="Event">public event EventHandler&lt;TwitchLoginSucceededEventArgs&gt; LoginSucceeded</Member>
+        <Member type="Event">public event EventHandler&lt;TwitchLoginFailedEventArgs&gt; LoginFailed</Member>
+        <Member type="Event">public event EventHandler&lt;TwitchLoginStateMismatchEventArgs&gt; StateMismatchOccurred</Member>
+        <Member type="Event">public event EventHandler&lt;TwitchLoginUnexpectedRedirectEventArgs&gt; UnexpectedRedirect</Member>
+        <Member type="Event">public event EventHandler&lt;TwitchLogoutEventArgs&gt; LoggedOut</Member>
+        <Member type="Constructor">public TwitchLoginViewModel(ICookieManager cookieManager)</Member>
+        <Member type="Method">public bool ProcessLoginResponse(Uri navigationUri)</Member>
+        <Member type="Method">public void Logout()</Member>
+        <Member type="Method">public Task&lt;IEnumerable&lt;CookieManager.Cookie&gt;&gt; GetTwitchCookiesAsync()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>TwitchLogin</Name>
+        <Access>Public</Access>
+        <Location left="134" top="281" />
+        <Size width="388" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public static readonly BindableProperty ClientIdProperty</Member>
+        <Member type="Field">public static readonly BindableProperty RedirectUriProperty</Member>
+        <Member type="Property">public string ClientId { get; set; }</Member>
+        <Member type="Property">public string RedirectUri { get; set; }</Member>
+        <Member type="Property">public bool IsLoggedIn { get; }</Member>
+        <Member type="Property">public int NewProperty { get; set; }</Member>
+        <Member type="Property">public string AccessToken { get; }</Member>
+        <Member type="Property">internal TwitchLoginViewModel ViewModel { get; set; }</Member>
+        <Member type="Method">public void Logout()</Member>
+        <Member type="Method">public Task&lt;IEnumerable&lt;CookieManager.Cookie&gt;&gt; GetTwitchCookiesAsync()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>CookieManager</Name>
+        <Access>Public</Access>
+        <Location left="1289" top="270" />
+        <Size width="221" height="188" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected readonly WebView _webView</Member>
+        <Member type="Constructor">public CookieManager(WebView webView)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ICookieManager</Name>
+        <Access>Public</Access>
+        <Location left="1224" top="39" />
+        <Size width="334" height="137" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">void DeleteAllCookies()</Member>
+        <Member type="Method">void DeleteCookie(string uri, string cookieName)</Member>
+        <Member type="Method">Task&lt;CookieManager.Cookie[]&gt; GetCookiesAsync(string uri)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>Cookie</Name>
+        <Access>Public</Access>
+        <Location left="1334" top="547" />
+        <Size width="162" height="121" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string Name { get; }</Member>
+        <Member type="Property">public string Value { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>TwitchLoginContext</Name>
+        <Access>Public</Access>
+        <Location left="232" top="602" />
+        <Size width="162" height="144" />
+        <Collapsed>False</Collapsed>
+        <Value>Unknown</Value>
+        <Value>TwitchAuthentication</Value>
+        <Value>Twitch</Value>
+        <Value>Redirect</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>TwitchLoginState</Name>
+        <Access>Public</Access>
+        <Location left="514" top="708" />
+        <Size width="162" height="123" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string Value { get; }</Member>
+        <Member type="Method">public override string ToString()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Comment" first="1" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="2">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="4" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Realization" first="5" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Nesting" first="5" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="3" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1021</X>
+          <Y>119</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
