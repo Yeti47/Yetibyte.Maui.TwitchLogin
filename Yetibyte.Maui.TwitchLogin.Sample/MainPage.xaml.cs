@@ -37,9 +37,9 @@ namespace Yetibyte.Maui.TwitchLogin.Sample
             entryAuthToken.Text = string.Empty;
         }
 
-        private void btnClear_Clicked(object sender, EventArgs e)
+        private async void btnClear_Clicked(object sender, EventArgs e)
         {
-            this.twitchLogin.Logout();
+            await this.twitchLogin.LogoutAsync();
         }
 
     }

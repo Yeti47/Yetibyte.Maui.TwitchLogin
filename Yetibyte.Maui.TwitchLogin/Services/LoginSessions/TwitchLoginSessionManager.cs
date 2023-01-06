@@ -65,9 +65,9 @@
             return session;
         }
 
-        public bool EndSession()
+        public async Task<bool> EndSessionAsync()
         {
-            ClearSessionCookies();
+            await ClearSessionCookiesAsync();
 
             OnSessionEnding(_currentSession);
 
@@ -101,17 +101,17 @@
 
             foreach(var cookie in cookies)
             {
-                _cookieManager.DeleteCookie(TwitchLoginNavigator.TWITCH_BASE_URI, cookie.Name);
+                await _cookieManager.DeleteCookieAsync(TwitchLoginNavigator.TWITCH_BASE_URI, cookie.Name);
             }
 
             _currentSession.OnEnding();
         }
 
-        private void ClearSessionCookies()
+        private async Task ClearSessionCookiesAsync()
         {
             foreach (string cookieName in TWITCH_LOGIN_COOKIE_NAMES)
             {
-                _cookieManager.DeleteCookie(TwitchLoginNavigator.TWITCH_BASE_URI, cookieName);
+                await _cookieManager.DeleteCookieAsync(TwitchLoginNavigator.TWITCH_BASE_URI, cookieName);
             }
         }
 

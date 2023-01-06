@@ -8,9 +8,11 @@ namespace Yetibyte.Maui.TwitchLogin.Services
 {
     public partial class CookieManager
     {
-        public void DeleteAllCookies()
+        public Task DeleteAllCookiesAsync()
         {
             Android.Webkit.CookieManager.Instance.RemoveAllCookies(null);
+
+            return Task.CompletedTask;
         }
 
         public Task<CookieManager.Cookie[]> GetCookiesAsync(string uri)
@@ -29,9 +31,12 @@ namespace Yetibyte.Maui.TwitchLogin.Services
             return Task.FromResult(cookies);
         }
 
-        public void DeleteCookie(string url, string cookieName)
+        public Task DeleteCookieAsync(string url, string cookieName)
         {
             Android.Webkit.CookieManager.Instance.SetCookie(url, $"{cookieName}=");
+
+            return Task.CompletedTask;
         }
     }
+
 }

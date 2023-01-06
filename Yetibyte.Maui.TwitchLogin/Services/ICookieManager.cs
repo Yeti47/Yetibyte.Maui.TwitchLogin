@@ -8,9 +8,9 @@ namespace Yetibyte.Maui.TwitchLogin.Services
 {
     public interface ICookieManager
     {
-        void DeleteAllCookies();
+        Task DeleteAllCookiesAsync();
 
-        void DeleteCookie(string uri, string cookieName);
+        Task DeleteCookieAsync(string uri, string cookieName);
 
         Task<CookieManager.Cookie[]> GetCookiesAsync(string uri);
     }

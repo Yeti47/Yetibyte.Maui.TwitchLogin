@@ -10,9 +10,11 @@ namespace Yetibyte.Maui.TwitchLogin.Services
 {
     public partial class CookieManager
     {
-        public void DeleteAllCookies()
+        public Task DeleteAllCookiesAsync()
         {
             NSHttpCookieStorage.SharedStorage.RemoveCookiesSinceDate(NSDate.DistantPast);
+
+            return Task.CompletedTask;
         }
 
         public Task<CookieManager.Cookie[]> GetCookiesAsync(string uri)
@@ -20,7 +22,7 @@ namespace Yetibyte.Maui.TwitchLogin.Services
             throw new NotImplementedException("Currently, reading out cookies is not supported on iOS.");
         }
 
-        public void DeleteCookie(string url, string cookieName)
+        public Task DeleteCookieAsync(string url, string cookieName)
         {
             var cookiesToDelete = NSHttpCookieStorage.SharedStorage.CookiesForUrl(new NSUrl(url)).Where(c => c.Name == cookieName).ToArray();
 
@@ -28,6 +30,8 @@ namespace Yetibyte.Maui.TwitchLogin.Services
             {
                 NSHttpCookieStorage.SharedStorage.DeleteCookie(cookie);
             }
+
+            return Task.CompletedTask;
 
         }
     }

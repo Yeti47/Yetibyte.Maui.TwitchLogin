@@ -8,7 +8,7 @@ namespace Yetibyte.Maui.TwitchLogin.Services
 {
     public partial class CookieManager
     {
-        public void DeleteAllCookies()
+        public Task DeleteAllCookies()
         {
             throw new NotSupportedException("Currently, Tizen does not support deleting cookies.");
         }
@@ -18,7 +18,7 @@ namespace Yetibyte.Maui.TwitchLogin.Services
             throw new NotImplementedException("Currently, reading out cookies is not supported on Tizen.");
         }
 
-        public void DeleteCookie(string url, string cookieName)
+        public Task DeleteCookie(string url, string cookieName)
         {
             throw new NotImplementedException("Currently, deleting cookies is not supported on Tizen.");
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Yetibyte.Maui.TwitchLogin;
 
 namespace Yetibyte.Maui.TwitchLogin.Sample
 {
@@ -9,6 +10,7 @@ namespace Yetibyte.Maui.TwitchLogin.Sample
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .AddTwitchLogin()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -21,5 +23,6 @@ namespace Yetibyte.Maui.TwitchLogin.Sample
 
             return builder.Build();
         }
+
     }
 }

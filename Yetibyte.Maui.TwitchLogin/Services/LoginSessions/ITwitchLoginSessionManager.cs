@@ -15,7 +15,7 @@ namespace Yetibyte.Maui.TwitchLogin.Services.LoginSessions
         event EventHandler<TwitchLoginSessionEventArgs> SessionEnded;
 
         ITwitchLoginSession StartSession(string accessToken);
-        bool EndSession();
+        Task<bool> EndSessionAsync();
 
         Task<IEnumerable<CookieManager.Cookie>> GetTwitchCookiesAsync();
         Task<IEnumerable<CookieManager.Cookie>> GetSessionCookiesAsync();

@@ -4,12 +4,9 @@
     {
         public record Cookie(string Name, string Value);
 
-        protected readonly WebView _webView;
+        public CookieManager() { }
 
-        public CookieManager(WebView webview)
-        {
-            _webView = webview;
-        }
     }
+
 
 }

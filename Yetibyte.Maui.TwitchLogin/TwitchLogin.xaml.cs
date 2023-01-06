@@ -79,11 +79,10 @@ public partial class TwitchLogin : ContentView
 
     #region Ctors
 
-    public TwitchLogin(ITwitchLoginSessionManager twitchLoginSessionManager)
+    public TwitchLogin()
 	{
-		InitializeComponent();
-
-        _sessionManager = twitchLoginSessionManager;
+        InitializeComponent();
+        _sessionManager = Yetibyte.Maui.TwitchLogin.Services.ServiceProvider.GetService<ITwitchLoginSessionManager>();
 
         ViewModel = new TwitchLoginViewModel(_sessionManager);
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -94,18 +93,13 @@ public partial class TwitchLogin : ContentView
         this.Unloaded += OnUnloaded;
 	}
 
-    public TwitchLogin() : this(new TwitchLoginSessionManager(new CookieManager(null)))
+#endregion
+
+#region Methods
+
+    public async Task LogoutAsync()
     {
-    
-    }
-
-    #endregion
-
-    #region Methods
-
-    public void Logout()
-    {
-        _sessionManager.EndSession();
+        await _sessionManager.EndSessionAsync(); 
     }
 
     private void OnLoaded(object sender, EventArgs e)
@@ -148,5 +142,5 @@ public partial class TwitchLogin : ContentView
         ViewModel.ProcessNavigationUri(targetUri);
     }
 
-    #endregion
+#endregion
 }
