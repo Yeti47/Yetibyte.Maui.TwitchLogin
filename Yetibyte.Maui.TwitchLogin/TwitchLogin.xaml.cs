@@ -18,6 +18,10 @@ public partial class TwitchLogin : ContentView
     public static readonly BindableProperty RedirectUriProperty =
         BindableProperty.Create(nameof(RedirectUri), typeof(string), typeof(TwitchLogin), TwitchLoginNavigator.DEFAULT_REDIRECT_URI, propertyChanged: (o, oldVal, newVal) => ((TwitchLogin)o).ViewModel.RedirectUri = new Uri(newVal.ToString()));
 
+    public static readonly BindableProperty RedirectHtmlWebSourceProperty =
+        BindableProperty.Create(nameof(RedirectHtmlWebSource), typeof(HtmlWebViewSource), typeof(TwitchLogin), propertyChanged: (o, oldVal, newVal) => ((TwitchLogin)o).ViewModel.UseCustomRedirectSource = newVal is not null);
+
+
     #endregion
 
     #region Fields
@@ -27,6 +31,12 @@ public partial class TwitchLogin : ContentView
     #endregion
 
     #region Props
+
+    public HtmlWebViewSource RedirectHtmlWebSource
+    {
+        get => (HtmlWebViewSource)GetValue(RedirectHtmlWebSourceProperty);
+        set => SetValue(RedirectHtmlWebSourceProperty, value);
+    }
 
     public string ClientId
     {
@@ -86,6 +96,7 @@ public partial class TwitchLogin : ContentView
 
         ViewModel = new TwitchLoginViewModel(_sessionManager);
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        ViewModel.LoginSucceeded += ViewModel_LoginSucceeded;
         
 		BindingContext = ViewModel;
 
@@ -93,9 +104,17 @@ public partial class TwitchLogin : ContentView
         this.Unloaded += OnUnloaded;
 	}
 
-#endregion
+    #endregion
 
-#region Methods
+    private void ViewModel_LoginSucceeded(object sender, TwitchLoginSucceededEventArgs e)
+    {
+        if (RedirectHtmlWebSource is not null)
+        {
+            webViewLogin.Source = RedirectHtmlWebSource;
+        }
+    }
+
+    #region Methods
 
     public async Task LogoutAsync()
     {

@@ -14,14 +14,29 @@
                 x:Name="twitchLogin"
                 WidthRequest="400"
                 HeightRequest="800"
-                RedirectUri="https://yetibyte.stremm.chat.localhost"
-                ClientId="pkpe0wrpb397czto89implwyr5t959"
+                RedirectUri="https://yetibyte.maui.twitchlogin"
+                ClientId="z3ei6mqa36o02d0o5z76s0n4nk3ar9"
                 LoginFailed="twitchLogin_LoginFailed"
                 LoginSucceeded="twitchLogin_LoginSucceeded"
                 UnexpectedRedirect="twitchLogin_UnexpectedRedirect"
                 StateMismatchOccurred="twitchLogin_StateMismatchOccurred"
                 LoggedOut="twitchLogin_LoggedOut"
-            />
+            >
+                <yb:TwitchLogin.RedirectHtmlWebSource>
+                    <HtmlWebViewSource>
+                        <HtmlWebViewSource.Html>
+                            <![CDATA[
+                            <html>
+                                <body style='background: purple; color: white;'>
+                                <h1>You are now logged in to Twitch!</h1>
+                                    <p>Use your access token to authenticate against the official Twitch API.</p>
+                                </body>
+                            </html>
+                            ]]>
+                        </HtmlWebViewSource.Html>
+                    </HtmlWebViewSource>
+                </yb:TwitchLogin.RedirectHtmlWebSource>
+            </yb:TwitchLogin>
 
             <Entry 
                 x:Name="entryAuthToken" 
@@ -31,10 +46,9 @@
 
             <Button
                 x:Name="btnClear"
-                Text="Clear"
+                Text="Logout"
                 Clicked="btnClear_Clicked"  
             />
-
 
         </VerticalStackLayout>
     </ScrollView>

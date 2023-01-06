@@ -25,6 +25,7 @@ namespace Yetibyte.Maui.TwitchLogin.ViewModels
         private string _accessToken = string.Empty;
         private Uri _redirectUri = new Uri(TwitchLoginNavigator.DEFAULT_REDIRECT_URI);
         private string _clientId = string.Empty;
+        private bool _useCustomRedirectSource = false;
 
         #endregion
 
@@ -33,8 +34,10 @@ namespace Yetibyte.Maui.TwitchLogin.ViewModels
         public string AccessToken
         {
             get => _accessToken;
-            set {
-                if (_accessToken != value) {
+            set
+            {
+                if (_accessToken != value)
+                {
 
                     _accessToken = value;
                     OnPropertyChanged();
@@ -46,8 +49,10 @@ namespace Yetibyte.Maui.TwitchLogin.ViewModels
         public Uri RedirectUri
         {
             get => _redirectUri;
-            set {
-                if (_redirectUri != value) {
+            set
+            {
+                if (_redirectUri != value)
+                {
 
                     _redirectUri = value;
                     _loginNavigator.RedirectUri = value;
@@ -83,6 +88,11 @@ namespace Yetibyte.Maui.TwitchLogin.ViewModels
         }
 
         public bool IsLoggedIn => !string.IsNullOrEmpty(_accessToken);
+
+        public bool UseCustomRedirectSource { 
+            get => _useCustomRedirectSource; 
+            set => _useCustomRedirectSource = value; 
+        }
 
         #endregion
 
@@ -122,6 +132,8 @@ namespace Yetibyte.Maui.TwitchLogin.ViewModels
                 case TwitchLoginContext.Redirect:
                     return TryLogin(navigationUri);
                 default:
+                    if (UseCustomRedirectSource && navigationUri.ToString().StartsWith("data:text/html"))
+                        return true;
                     OnUnexpectedRedirect(new TwitchLoginUnexpectedRedirectEventArgs(navigationUri));
                     return false;
             }
@@ -143,9 +155,9 @@ namespace Yetibyte.Maui.TwitchLogin.ViewModels
                 }
                 return false;
             }
-            catch(TwitchLoginStateMismatchException stateMismatchException)
+            catch (TwitchLoginStateMismatchException stateMismatchException)
             {
-                OnStateMismatchOccurred(new TwitchLoginStateMismatchEventArgs(stateMismatchException.ExpectedState, stateMismatchException.ActualState));   
+                OnStateMismatchOccurred(new TwitchLoginStateMismatchEventArgs(stateMismatchException.ExpectedState, stateMismatchException.ActualState));
                 return false;
             }
 
