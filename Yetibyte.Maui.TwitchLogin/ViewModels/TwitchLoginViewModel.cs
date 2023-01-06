@@ -25,6 +25,7 @@ namespace Yetibyte.Maui.TwitchLogin.ViewModels
         private string _accessToken = string.Empty;
         private Uri _redirectUri = new Uri(TwitchLoginNavigator.DEFAULT_REDIRECT_URI);
         private string _clientId = string.Empty;
+        private string _scope = string.Empty;
         private bool _useCustomRedirectSource = false;
 
         #endregion
@@ -77,12 +78,25 @@ namespace Yetibyte.Maui.TwitchLogin.ViewModels
             }
         }
 
+        public string Scope
+        {
+            get => _scope;
+            set
+            {
+                if (_scope != value)
+                {
+                    _scope = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(AuthenticationUrl));
+                }
+            }
+        }
+
         public string AuthenticationUrl
         {
             get
             {
-                string source = $"{TwitchLoginNavigator.TWITCH_ID_BASE_URI}/oauth2/authorize?response_type=token&client_id={_clientId}&redirect_uri={RedirectUri.OriginalString}&state={_state}";
-
+                string source = $"{TwitchLoginNavigator.TWITCH_ID_BASE_URI}/oauth2/authorize?response_type=token&client_id={_clientId}&redirect_uri={RedirectUri.OriginalString}&scope={Scope}&state={_state}";
                 return source;
             }
         }

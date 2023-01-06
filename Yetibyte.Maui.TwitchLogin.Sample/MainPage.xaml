@@ -14,8 +14,13 @@
                 x:Name="twitchLogin"
                 WidthRequest="400"
                 HeightRequest="800"
-                RedirectUri="https://yetibyte.maui.twitchlogin"
+                
                 ClientId="z3ei6mqa36o02d0o5z76s0n4nk3ar9"
+                RedirectUri="https://yetibyte.maui.twitchlogin"
+                Scope="chat:read channel:read:polls"
+                
+                ResetOnFailedLogin="True"
+                
                 LoginFailed="twitchLogin_LoginFailed"
                 LoginSucceeded="twitchLogin_LoginSucceeded"
                 UnexpectedRedirect="twitchLogin_UnexpectedRedirect"
@@ -36,6 +41,20 @@
                         </HtmlWebViewSource.Html>
                     </HtmlWebViewSource>
                 </yb:TwitchLogin.RedirectHtmlWebSource>
+                <yb:TwitchLogin.LoginFailedHtmlWebSource>
+                    <HtmlWebViewSource>
+                        <HtmlWebViewSource.Html>
+                            <![CDATA[
+                            <html>
+                                <body style='background: darkred; color: white;'>
+                                <h1>Login attempt failed =(</h1>
+                                    <p>Something went wrong</p>
+                                </body>
+                            </html>
+                            ]]>
+                        </HtmlWebViewSource.Html>
+                    </HtmlWebViewSource>
+                </yb:TwitchLogin.LoginFailedHtmlWebSource>
             </yb:TwitchLogin>
 
             <Entry 

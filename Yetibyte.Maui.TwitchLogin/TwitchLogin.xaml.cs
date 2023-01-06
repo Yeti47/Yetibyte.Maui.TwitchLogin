@@ -18,8 +18,17 @@ public partial class TwitchLogin : ContentView
     public static readonly BindableProperty RedirectUriProperty =
         BindableProperty.Create(nameof(RedirectUri), typeof(string), typeof(TwitchLogin), TwitchLoginNavigator.DEFAULT_REDIRECT_URI, propertyChanged: (o, oldVal, newVal) => ((TwitchLogin)o).ViewModel.RedirectUri = new Uri(newVal.ToString()));
 
+    public static readonly BindableProperty ScopeProperty =
+        BindableProperty.Create(nameof(Scope), typeof(string), typeof(TwitchLogin), string.Empty, propertyChanged: (o, oldVal, newVal) => ((TwitchLogin)o).ViewModel.Scope = newVal.ToString());
+
     public static readonly BindableProperty RedirectHtmlWebSourceProperty =
         BindableProperty.Create(nameof(RedirectHtmlWebSource), typeof(HtmlWebViewSource), typeof(TwitchLogin), propertyChanged: (o, oldVal, newVal) => ((TwitchLogin)o).ViewModel.UseCustomRedirectSource = newVal is not null);
+
+    public static readonly BindableProperty LoginFailedHtmlWebSourceProperty =
+        BindableProperty.Create(nameof(LoginFailedHtmlWebSource), typeof(HtmlWebViewSource), typeof(TwitchLogin));
+
+    public static readonly BindableProperty ResetOnFailedLoginProperty =
+        BindableProperty.Create(nameof(ResetOnFailedLogin), typeof(bool), typeof(TwitchLogin), false);
 
 
     #endregion
@@ -32,12 +41,6 @@ public partial class TwitchLogin : ContentView
 
     #region Props
 
-    public HtmlWebViewSource RedirectHtmlWebSource
-    {
-        get => (HtmlWebViewSource)GetValue(RedirectHtmlWebSourceProperty);
-        set => SetValue(RedirectHtmlWebSourceProperty, value);
-    }
-
     public string ClientId
     {
         get => (string)GetValue(ClientIdProperty);
@@ -48,6 +51,30 @@ public partial class TwitchLogin : ContentView
     {
         get => (string)GetValue(RedirectUriProperty);
         set => SetValue(RedirectUriProperty, value);
+    }
+
+    public string Scope
+    {
+        get => (string)GetValue(ScopeProperty);
+        set => SetValue(ScopeProperty, value);
+    }
+
+    public HtmlWebViewSource RedirectHtmlWebSource
+    {
+        get => (HtmlWebViewSource)GetValue(RedirectHtmlWebSourceProperty);
+        set => SetValue(RedirectHtmlWebSourceProperty, value);
+    }
+
+    public HtmlWebViewSource LoginFailedHtmlWebSource
+    {
+        get => (HtmlWebViewSource)GetValue(LoginFailedHtmlWebSourceProperty);
+        set => SetValue(LoginFailedHtmlWebSourceProperty, value);
+    }
+
+    public bool ResetOnFailedLogin
+    {
+        get => (bool)GetValue(ResetOnFailedLoginProperty);
+        set => SetValue(ResetOnFailedLoginProperty, value);
     }
 
     public bool IsLoggedIn => ViewModel.IsLoggedIn;
@@ -97,6 +124,7 @@ public partial class TwitchLogin : ContentView
         ViewModel = new TwitchLoginViewModel(_sessionManager);
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         ViewModel.LoginSucceeded += ViewModel_LoginSucceeded;
+        ViewModel.LoginFailed += ViewModel_LoginFailed;
         
 		BindingContext = ViewModel;
 
@@ -106,6 +134,8 @@ public partial class TwitchLogin : ContentView
 
     #endregion
 
+    #region Methods
+
     private void ViewModel_LoginSucceeded(object sender, TwitchLoginSucceededEventArgs e)
     {
         if (RedirectHtmlWebSource is not null)
@@ -114,7 +144,21 @@ public partial class TwitchLogin : ContentView
         }
     }
 
-    #region Methods
+    private async void ViewModel_LoginFailed(object sender, TwitchLoginFailedEventArgs e)
+    {
+        if (ResetOnFailedLogin)
+        {
+            await _sessionManager.ClearTwitchCookiesAsync();
+            webViewLogin.Source = ViewModel.AuthenticationUrl;
+            return;
+        }
+
+        if (LoginFailedHtmlWebSource is not null)
+        {
+            webViewLogin.Source = LoginFailedHtmlWebSource;
+        }
+    }
+
 
     public async Task LogoutAsync()
     {
