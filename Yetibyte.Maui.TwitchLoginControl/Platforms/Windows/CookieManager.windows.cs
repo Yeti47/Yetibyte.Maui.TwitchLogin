@@ -32,7 +32,7 @@ namespace Yetibyte.Maui.TwitchLoginControl.Services
         public void DeleteCookie(string url, string cookieName)
         {
             MauiWebView? mauiWebView = this._webView.Handler.PlatformView as MauiWebView;
-
+            
             var cookieManager = mauiWebView?.CoreWebView2?.CookieManager;
 
             Uri uri = new Uri(url);

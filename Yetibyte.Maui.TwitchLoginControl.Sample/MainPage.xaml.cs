@@ -37,21 +37,10 @@ namespace Yetibyte.Maui.TwitchLoginControl.Sample
             entryAuthToken.Text = string.Empty;
         }
 
-        private async void btnClear_Clicked(object sender, EventArgs e)
+        private void btnClear_Clicked(object sender, EventArgs e)
         {
-            var cookiesBeforeLogout = await twitchLogin.GetTwitchCookiesAsync();
-
             this.twitchLogin.Logout();
-
-            var cookiesAfterLogout = await twitchLogin.GetTwitchCookiesAsync();
-
-            string t = ";";
         }
 
-
-        private async void btnInspectCookies_Clicked(object sender, EventArgs e)
-        {
-            var cookies = await twitchLogin.GetTwitchCookiesAsync();
-        }
     }
 }

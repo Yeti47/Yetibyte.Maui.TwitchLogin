@@ -35,11 +35,6 @@
                 Clicked="btnClear_Clicked"  
             />
 
-            <Button
-                x:Name="btnInspectCookies"
-                Text="Inspect Cookies"
-                Clicked="btnInspectCookies_Clicked"
-            />
 
         </VerticalStackLayout>
     </ScrollView>
