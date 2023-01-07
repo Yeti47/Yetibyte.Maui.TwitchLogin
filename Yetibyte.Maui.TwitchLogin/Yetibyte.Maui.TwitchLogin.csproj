@@ -15,6 +15,16 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Title>MAUI Twitch Login</Title>
+		<Authors>Yetibyte</Authors>
+		<Company />
+		<Description>A MAUI control that allows signing in via twitch.tv and receiving an OAuth access token using the implicit grant flow.</Description>
+		<PackageProjectUrl></PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Yeti47/Yetibyte.Maui.TwitchLogin</RepositoryUrl>
+		<PackageTags>MAUI; twitch; authentication; oauth; access; token; login;</PackageTags>
+		<PackageReleaseNotes>This is a first pre-release.</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
 	<ItemGroup>
