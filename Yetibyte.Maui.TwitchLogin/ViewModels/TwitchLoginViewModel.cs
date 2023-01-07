@@ -96,7 +96,7 @@ namespace Yetibyte.Maui.TwitchLogin.ViewModels
         {
             get
             {
-                string source = $"{TwitchLoginNavigator.TWITCH_ID_BASE_URI}/oauth2/authorize?response_type=token&client_id={_clientId}&redirect_uri={RedirectUri.OriginalString}&scope={Scope}&state={_state}";
+                string source = $"{TwitchLoginNavigator.TWITCH_ID_BASE_URI}/oauth2/authorize?response_type=token&client_id={_clientId}&redirect_uri={RedirectUri.OriginalString}&scope={HttpUtility.UrlEncode(Scope)}&state={_state}";
                 return source;
             }
         }

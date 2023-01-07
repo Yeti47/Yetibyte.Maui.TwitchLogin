@@ -109,10 +109,17 @@
 
         private async Task ClearSessionCookiesAsync()
         {
+#if ANDROID
+            // Fix for Anroid: Deleting single cookies does not work for some reason.
+            //                 Setting existing cookies to an empty value just adds the cookie multiple times instead of overwriting it.
+            //                 So as a fallback, we're going to remove ALL cookies, to ensure the twitch session cookies are deleted.
+            await _cookieManager.DeleteAllCookiesAsync();
+#else
             foreach (string cookieName in TWITCH_LOGIN_COOKIE_NAMES)
             {
                 await _cookieManager.DeleteCookieAsync(TwitchLoginNavigator.TWITCH_BASE_URI, cookieName);
             }
+#endif
         }
 
         protected virtual void OnSessionStarted(ITwitchLoginSession session)

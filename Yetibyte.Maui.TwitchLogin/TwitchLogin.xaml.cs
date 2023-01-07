@@ -10,6 +10,12 @@ namespace Yetibyte.Maui.TwitchLogin;
 
 public partial class TwitchLogin : ContentView
 {
+    #region Constants
+
+    private const string BANNER_SUPPRESSION_JS = "( function() { document.getElementsByClassName('consent-banner')[0].remove(); } )();";
+
+    #endregion
+
     #region Bindable Props
 
     public static readonly BindableProperty ClientIdProperty =
@@ -30,7 +36,8 @@ public partial class TwitchLogin : ContentView
     public static readonly BindableProperty ResetOnFailedLoginProperty =
         BindableProperty.Create(nameof(ResetOnFailedLogin), typeof(bool), typeof(TwitchLogin), false);
 
-
+    public static readonly BindableProperty SuppressCookieConsentBannerProperty =
+        BindableProperty.Create(nameof(SuppressCookieConsentBanner), typeof(bool), typeof(TwitchLogin), false);
     #endregion
 
     #region Fields
@@ -75,6 +82,12 @@ public partial class TwitchLogin : ContentView
     {
         get => (bool)GetValue(ResetOnFailedLoginProperty);
         set => SetValue(ResetOnFailedLoginProperty, value);
+    }
+
+    public bool SuppressCookieConsentBanner
+    {
+        get => (bool)GetValue(SuppressCookieConsentBannerProperty);
+        set => SetValue(SuppressCookieConsentBannerProperty, value);
     }
 
     public bool IsLoggedIn => ViewModel.IsLoggedIn;
@@ -130,11 +143,29 @@ public partial class TwitchLogin : ContentView
 
         this.Loaded += OnLoaded;
         this.Unloaded += OnUnloaded;
+
+        webViewLogin.Loaded += WebViewLogin_Loaded;
 	}
 
     #endregion
 
     #region Methods
+
+    private void WebViewLogin_Loaded(object sender, EventArgs e)
+    {
+#if ANDROID
+        var view = sender as WebView;
+        var handler = view.Handler;
+        var webview = handler?.PlatformView as Android.Webkit.WebView;
+        if (webview is not null)
+        {
+            webview.LayoutParameters = new(
+                Android.Views.ViewGroup.LayoutParams.MatchParent,
+                Android.Views.ViewGroup.LayoutParams.MatchParent);
+
+        }
+#endif    
+    }
 
     private void ViewModel_LoginSucceeded(object sender, TwitchLoginSucceededEventArgs e)
     {
@@ -201,9 +232,31 @@ public partial class TwitchLogin : ContentView
     private void webViewLogin_Navigating(object sender, WebNavigatingEventArgs e)
     {
         Uri targetUri = new Uri(e.Url);
-        
+
         ViewModel.ProcessNavigationUri(targetUri);
     }
 
-#endregion
+    private async void webViewLogin_Navigated(object sender, WebNavigatedEventArgs e)
+    {
+        Uri targetUri = new Uri(e.Url);
+
+        if (SuppressCookieConsentBanner && IsLoginPage(targetUri))
+        {
+            await SuppressBanner();
+        }
+    }
+
+    private async Task SuppressBanner()
+    {
+        await webViewLogin.EvaluateJavaScriptAsync(BANNER_SUPPRESSION_JS);
+    }
+
+    private bool IsLoginPage(Uri targetUri)
+    {
+        return targetUri.Host.EndsWith(TwitchLoginNavigator.TWITCH_HOST_NAME, StringComparison.OrdinalIgnoreCase) 
+            && targetUri.PathAndQuery.StartsWith("/login", StringComparison.OrdinalIgnoreCase);
+    }
+
+    #endregion
+
 }

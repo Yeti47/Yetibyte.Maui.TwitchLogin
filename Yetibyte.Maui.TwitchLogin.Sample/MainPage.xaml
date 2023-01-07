@@ -4,7 +4,8 @@
              x:Class="Yetibyte.Maui.TwitchLogin.Sample.MainPage"
              xmlns:yb="clr-namespace:Yetibyte.Maui.TwitchLogin;assembly=Yetibyte.Maui.TwitchLogin">
 
-    <ScrollView>
+    <Grid>
+
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
@@ -13,13 +14,13 @@
             <yb:TwitchLogin 
                 x:Name="twitchLogin"
                 WidthRequest="400"
-                HeightRequest="800"
-                
+                HeightRequest="400"
                 ClientId="z3ei6mqa36o02d0o5z76s0n4nk3ar9"
                 RedirectUri="https://yetibyte.maui.twitchlogin"
                 Scope="chat:read channel:read:polls"
                 
                 ResetOnFailedLogin="True"
+                SuppressCookieConsentBanner="True"
                 
                 LoginFailed="twitchLogin_LoginFailed"
                 LoginSucceeded="twitchLogin_LoginSucceeded"
@@ -70,6 +71,6 @@
             />
 
         </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 
 </ContentPage>

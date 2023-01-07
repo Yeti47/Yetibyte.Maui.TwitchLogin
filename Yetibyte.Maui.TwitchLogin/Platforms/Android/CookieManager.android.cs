@@ -33,7 +33,7 @@ namespace Yetibyte.Maui.TwitchLogin.Services
 
         public Task DeleteCookieAsync(string url, string cookieName)
         {
-            Android.Webkit.CookieManager.Instance.SetCookie(url, $"{cookieName}=");
+            Android.Webkit.CookieManager.Instance.SetCookie(url, $"{cookieName}=;");
 
             return Task.CompletedTask;
         }

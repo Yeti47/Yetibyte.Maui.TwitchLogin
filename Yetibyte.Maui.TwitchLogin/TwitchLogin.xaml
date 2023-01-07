@@ -5,13 +5,14 @@
              xmlns:vm="clr-namespace:Yetibyte.Maui.TwitchLogin.ViewModels"
              x:DataType="vm:TwitchLoginViewModel"
              >
-    <Grid VerticalOptions="Fill" HorizontalOptions="Fill">
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
         <WebView 
             x:Name="webViewLogin" 
-            Source="{Binding AuthenticationUrl}" 
+            Source="{Binding AuthenticationUrl}"
             HorizontalOptions="Fill"
             VerticalOptions="Fill"
             Navigating="webViewLogin_Navigating"
+            Navigated="webViewLogin_Navigated"
         />
     </Grid>
 </ContentView>
